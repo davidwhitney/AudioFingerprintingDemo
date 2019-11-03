@@ -39,6 +39,22 @@ namespace AudioApi.Test.Unit
             Assert.That(typed.Artist, Is.EqualTo("Leprous"));
             Assert.That(typed.Title, Is.EqualTo("Below"));
         }
+
+        [Test]
+        public async Task CallingAudioSearch_IsOk_WithOggOpusFiles()
+        {
+            var fileBytes = File.ReadAllBytes("TestData/bad-below.ogg");
+            var byteArrayContent = new ByteArrayContent(fileBytes);
+            byteArrayContent.Headers.Clear();
+            byteArrayContent.Headers.Add("Content-Type", "audio/webm;codecs=opus");
+
+            var result = await _client.PostAsync("/audiosearch", byteArrayContent);
+            var typed = await result.As<BestMatch>();
+            
+            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(typed.Artist, Is.EqualTo("Leprous"));
+            Assert.That(typed.Title, Is.EqualTo("Below"));
+        }
     }
 
     public static class DeserializationExtensions

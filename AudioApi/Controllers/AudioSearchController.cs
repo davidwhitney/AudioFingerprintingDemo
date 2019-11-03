@@ -1,11 +1,16 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Concentus.Oggfile;
+using Concentus.Structs;
 using Microsoft.AspNetCore.Mvc;
+using NAudio.Wave;
 using SoundFingerprinting;
 using SoundFingerprinting.Audio;
 using SoundFingerprinting.Builder;
 using SoundFingerprinting.Configuration;
+using WaveFormat = SoundFingerprinting.Audio.WaveFormat;
 
 namespace AudioApi.Controllers
 {
@@ -23,14 +28,21 @@ namespace AudioApi.Controllers
         }
 
         [HttpPost]
-        [Consumes("audio/vnd.wave")]
+        [Consumes("audio/vnd.wave", "audio/webm;codecs=opus")]
         public async Task<ActionResult<BestMatch>> Post()
         {
             await using var ms = new MemoryStream(2048);
             await Request.Body.CopyToAsync(ms);
+            var bytes = ms.ToArray();
+
+            if (Request.ContentType == "audio/webm; codecs=opus")
+            {
+                var transcoder = new OpusTranscoder();
+                bytes = transcoder.ToWav(bytes);
+            }
 
             var tempLocation = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".wav");
-            await System.IO.File.WriteAllBytesAsync(tempLocation, ms.ToArray());
+            await System.IO.File.WriteAllBytesAsync(tempLocation, bytes);
 
             var queryCommand = QueryCommandBuilder.Instance
                 .BuildQueryCommand()
@@ -46,6 +58,7 @@ namespace AudioApi.Controllers
                 Title = queryResult.BestMatch?.Track?.Title
             };
         }
+
     }
 
     public class BestMatch

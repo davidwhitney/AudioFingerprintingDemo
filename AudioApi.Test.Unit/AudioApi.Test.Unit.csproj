@@ -8,11 +8,15 @@
 
   <ItemGroup>
     <None Remove="App_Data\Tracks\01__Leprous_-_Below.mp3" />
+    <None Remove="TestData\bad-below.ogg" />
     <None Remove="TestData\bad-below.wav" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="App_Data\Tracks\01__Leprous_-_Below.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\bad-below.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\bad-below.wav">

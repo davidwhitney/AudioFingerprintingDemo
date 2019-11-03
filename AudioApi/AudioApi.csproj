@@ -23,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Concentus" Version="1.1.7" />
+    <PackageReference Include="Concentus.OggFile" Version="1.0.4" />
+    <PackageReference Include="CSCore.Opus" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.0" />
     <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="SoundFingerprinting" Version="7.0.0" />

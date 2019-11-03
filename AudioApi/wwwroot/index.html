@@ -22,12 +22,20 @@
             startRecording(recorder);
         }
 
-        function storeChunks(e) {
+        async function storeChunks(e) {
             console.log(e.data);
+            //const response = await postData('audiosearch', e.data);
+            //console.log(response);
         }
 
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(function (stream) {
+                const options = {
+                    audioBitsPerSecond: 128000,
+                    videoBitsPerSecond: 2500000,
+                    mimeType: 'audio/webm;codecs=pcm'
+                }
+
                 const mediaRecorder = new window.MediaRecorder(stream);
                 startRecording(mediaRecorder);
             })
@@ -35,6 +43,25 @@
                     console.log(`The following getUserMedia error occured: ${err}`);
                 }
             );
+
+        async function postData(url = '', data) {
+
+            const response = await fetch(url,
+                {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    credentials: 'omit',
+                    headers: {
+                        'Content-Type': 'audio/vnd.wave'
+                    },
+                    redirect: 'manual',
+                    referrer: 'no-referrer',
+                    body: data
+                });
+
+            return await response.json(); // parses JSON response into native JavaScript objects
+        };
 
     </script>
 </body>
