@@ -1,0 +1,41 @@
+﻿<html>
+<head>
+    <title>What's that song</title>
+</head>
+<body>
+    <p>Listening for music we know.</p>
+
+    <script>
+
+        function startRecording(recorder) {
+            recorder.start();
+            console.log(recorder.state);
+            console.log("recorder started");
+            recorder.ondataavailable = storeChunks;
+
+            window.setTimeout(() => stopRecording(recorder), 12 * 1000);
+        }
+
+        function stopRecording(recorder) {
+            recorder.stop();
+            console.log('restarting recording');
+            startRecording(recorder);
+        }
+
+        function storeChunks(e) {
+            console.log(e.data);
+        }
+
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function (stream) {
+                const mediaRecorder = new window.MediaRecorder(stream);
+                startRecording(mediaRecorder);
+            })
+            .catch(function(err) {
+                    console.log(`The following getUserMedia error occured: ${err}`);
+                }
+            );
+
+    </script>
+</body>
+</html>
