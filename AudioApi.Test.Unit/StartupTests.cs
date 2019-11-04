@@ -26,7 +26,7 @@ namespace AudioApi.Test.Unit
         }
 
         [Test]
-        public async Task CallingAudioSearch_IsOk()
+        public async Task CallingAudioSearch_IsOk_WithGoodQualityPoorRecording()
         {
             var fileBytes = File.ReadAllBytes("TestData/bad-below.wav");
             var byteArrayContent = new ByteArrayContent(fileBytes);
@@ -34,27 +34,43 @@ namespace AudioApi.Test.Unit
 
             var result = await _client.PostAsync("/audiosearch", byteArrayContent);
             var typed = await result.As<BestMatch>();
-            
+
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(typed.Artist, Is.EqualTo("Leprous"));
             Assert.That(typed.Title, Is.EqualTo("Below"));
         }
 
         [Test]
-        public async Task CallingAudioSearch_IsOk_WithOggOpusFiles()
+        public async Task CallingAudioSearch_IsOk_WithLowQualityWebcamRecording()
         {
-            var fileBytes = File.ReadAllBytes("TestData/bad-below.ogg");
+            var fileBytes = File.ReadAllBytes("TestData/pcm-chrome-raw-below.wav");
             var byteArrayContent = new ByteArrayContent(fileBytes);
             byteArrayContent.Headers.Clear();
-            byteArrayContent.Headers.Add("Content-Type", "audio/webm;codecs=opus");
+            byteArrayContent.Headers.Add("Content-Type", "audio/webm; codecs=pcm");
 
             var result = await _client.PostAsync("/audiosearch", byteArrayContent);
             var typed = await result.As<BestMatch>();
-            
+
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(typed.Artist, Is.EqualTo("Leprous"));
             Assert.That(typed.Title, Is.EqualTo("Below"));
         }
+
+        //[Test]
+        //public async Task CallingAudioSearch_IsOk_WithOggOpusFiles()
+        //{
+        //    var fileBytes = File.ReadAllBytes("TestData/opus-chrome-raw.bin");
+        //    var byteArrayContent = new ByteArrayContent(fileBytes);
+        //    byteArrayContent.Headers.Clear();
+        //    byteArrayContent.Headers.Add("Content-Type", "audio/webm; codecs=opus");
+
+        //    var result = await _client.PostAsync("/audiosearch", byteArrayContent);
+        //    var typed = await result.As<BestMatch>();
+
+        //    Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        //    Assert.That(typed.Artist, Is.EqualTo("Leprous"));
+        //    Assert.That(typed.Title, Is.EqualTo("Below"));
+        //}
     }
 
     public static class DeserializationExtensions

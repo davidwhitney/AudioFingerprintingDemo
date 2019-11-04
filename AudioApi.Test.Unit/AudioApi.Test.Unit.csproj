@@ -8,18 +8,29 @@
 
   <ItemGroup>
     <None Remove="App_Data\Tracks\01__Leprous_-_Below.mp3" />
+    <None Remove="TestData\bad-below-2.wav" />
     <None Remove="TestData\bad-below.ogg" />
     <None Remove="TestData\bad-below.wav" />
+    <None Remove="TestData\opus-chrome-raw.bin" />
+    <None Remove="TestData\pcm-chrome-raw-below.wav" />
+    <None Remove="TestData\pcm-chrome-raw.wav" />
+    <None Remove="TestData\raw-browser-packages.bin" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="App_Data\Tracks\01__Leprous_-_Below.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData\bad-below-2.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestData\bad-below.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\bad-below.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\pcm-chrome-raw-below.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -34,6 +45,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AudioApi\AudioApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestData\opus-chrome-raw.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestData\pcm-chrome-raw.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

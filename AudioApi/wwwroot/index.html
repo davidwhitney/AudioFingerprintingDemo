@@ -8,35 +8,39 @@
     <script>
 
         function startRecording(recorder) {
+            recorder.ondataavailable = (e) => storeChunks(e, recorder.stream);
             recorder.start();
             console.log(recorder.state);
             console.log("recorder started");
-            recorder.ondataavailable = storeChunks;
-
-            window.setTimeout(() => stopRecording(recorder), 12 * 1000);
+            window.setTimeout(() => {
+                recorder.stop();
+                console.log("recorder stopped");
+                startRecording(recorder);
+            }, 15 * 1000);
         }
 
-        function stopRecording(recorder) {
-            recorder.stop();
-            console.log('restarting recording');
-            startRecording(recorder);
+
+        async function storeChunks(e, stream) {
+            
+            console.log(e);
+            const data = await e.data.arrayBuffer();
+            const response = await postData('audiosearch', data);
+            console.log(response);
         }
 
-        async function storeChunks(e) {
-            console.log(e.data);
-            //const response = await postData('audiosearch', e.data);
-            //console.log(response);
-        }
-
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(function (stream) {
+        navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: false
+            })
+            .then(function(stream) {
                 const options = {
-                    audioBitsPerSecond: 128000,
-                    videoBitsPerSecond: 2500000,
+                    sampleRate: 48000,
+                    channelCount: 2,
                     mimeType: 'audio/webm;codecs=pcm'
                 }
-
-                const mediaRecorder = new window.MediaRecorder(stream);
+                console.log(stream);
+                const mediaRecorder = new window.MediaRecorder(stream, options);
+                
                 startRecording(mediaRecorder);
             })
             .catch(function(err) {
@@ -46,22 +50,25 @@
 
         async function postData(url = '', data) {
 
-            const response = await fetch(url,
-                {
+            const response = await fetch(url, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    mode: 'same-origin',
                     cache: 'no-cache',
-                    credentials: 'omit',
                     headers: {
-                        'Content-Type': 'audio/vnd.wave'
+                       'Content-Type': 'audio/webm; codecs=pcm',
+                       // 'Content-Type': 'audio/webm; codecs=opus',
+                       // 'is-opus': 'true',
+                       // 'sample-rate': 48000,
+                       // 'channel-count': 2,
+                       // 'size': data.size
                     },
-                    redirect: 'manual',
-                    referrer: 'no-referrer',
                     body: data
                 });
 
             return await response.json(); // parses JSON response into native JavaScript objects
         };
+
+     
 
     </script>
 </body>
