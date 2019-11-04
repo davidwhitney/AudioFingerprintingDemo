@@ -36,7 +36,7 @@ namespace AudioApi
         {
             var task = Task.Run(async () => await indexer.Execute("App_Data"));
 
-            if (BlockUntilIndexFinished)
+            //if (BlockUntilIndexFinished)
             {
                 Task.WaitAll(task);
             }

@@ -31,15 +31,14 @@ namespace AudioApi.Controllers
         {
             await using var ms = new MemoryStream();
             await Request.Body.CopyToAsync(ms);
-            var bytes = ms.ToArray();
+            ms.Position = 0;
 
-            await using var ms2 = new MemoryStream(bytes) {Position = 0};
             var ff = new CSCore.WaveFormat(48000, 16, 2, AudioEncoding.IeeeFloat);
-            var dr = new RawDataReader(ms2, ff);
+            var dr = new RawDataReader(ms, ff);
             
             await using var outs = new MemoryStream();
             dr.WriteToWaveStream(outs);
-            bytes = outs.ToArray();
+            var bytes = outs.ToArray();
 
             return await MatchFingerprintAsWav(bytes);
         }

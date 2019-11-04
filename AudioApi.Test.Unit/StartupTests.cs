@@ -25,10 +25,12 @@ namespace AudioApi.Test.Unit
             _client = _testHost.CreateClient();
         }
 
-        [Test]
-        public async Task CallingAudioSearch_IsOk_WithGoodQualityPoorRecording()
+        [TestCase("bad-below.wav")]
+        [TestCase("mobile-bel.wav")]
+        [TestCase("mobile-bel2.wav")]
+        public async Task CallingAudioSearch_IsOk_WithGoodQualityPoorRecording(string file)
         {
-            var fileBytes = File.ReadAllBytes("TestData/bad-below.wav");
+            var fileBytes = File.ReadAllBytes("TestData/" + file);
             var byteArrayContent = new ByteArrayContent(fileBytes);
             byteArrayContent.Headers.ContentType = new MediaTypeHeaderValue("audio/vnd.wave");
 

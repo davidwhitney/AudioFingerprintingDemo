@@ -11,7 +11,11 @@
     <None Remove="TestData\bad-below-2.wav" />
     <None Remove="TestData\bad-below.ogg" />
     <None Remove="TestData\bad-below.wav" />
+    <None Remove="TestData\mobile-bel.wav" />
+    <None Remove="TestData\mobile-bel2.wav" />
     <None Remove="TestData\opus-chrome-raw.bin" />
+    <None Remove="TestData\pcm-chrome-mobile-below1.wav" />
+    <None Remove="TestData\pcm-chrome-mobile-below2.wav" />
     <None Remove="TestData\pcm-chrome-raw-below.wav" />
     <None Remove="TestData\pcm-chrome-raw.wav" />
     <None Remove="TestData\raw-browser-packages.bin" />
@@ -28,6 +32,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\bad-below.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\mobile-bel.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\mobile-bel2.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\pcm-chrome-raw-below.wav">
