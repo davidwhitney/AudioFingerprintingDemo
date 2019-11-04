@@ -83,7 +83,7 @@ namespace AudioApi.Controllers
 
             var queryResult = await queryCommand.Query();
 
-            //System.IO.File.Delete(tempLocation);
+            System.IO.File.Delete(tempLocation);
 
             return new BestMatch
             {
